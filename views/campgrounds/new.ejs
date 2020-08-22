@@ -1,27 +1,67 @@
 <%- include("../partials/header") %>
-<div class="container">
-    <div class="row">
-        <h1 style="text-align: center;">Create a New Campground</h1>
-        <div style="width: 30%; margin: 4rem auto;">
-            <form action="/campgrounds" method="POST">
-                <div class="form-group">
-                    <input class="form-control" type="text" name="name" placeholder="Campground Name">
+<div class="row justify-content-center">
+    <div class="col-md-12 m-3 text-center">
+        <h1>Create a New Campground</h1>
+    </div>
+    <div class="card col-md-6 mt-2 mb-4 p-4">
+        <form action="/campgrounds" method="POST">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input class="form-control" type="text" name="name" id="name" placeholder="Canopy Tribes">
+            </div>
+            <div class="form-group">
+                <label for="image">Image URL</label>
+                <input class="form-control type="text" name="image" id="image" placeholder="https://images.unsplash.com/...." required>
+            </div>
+            <div class="form-group">
+                <label for="price">Price</label>
+                <div class="form-inline">
+                    <select class="form-control w-25" name="currency" id="currency">
+                        <option value="B$">B$</option>
+                        <option value="៛">៛</option>
+                        <option value="US$">US$</option>
+                        <option value="Rp">Rp</option>
+                        <option value="₭">₭</option>
+                        <option value="RM">RM</option>
+                        <option value="K">K</option>
+                        <option value="₱">₱</option>
+                        <option value="S$">S$</option>
+                        <option value="฿">฿</option>
+                        <option value="₫">₫</option>
+                    </select>
+                    <input class="form-control w-75" type="number" name="price" id="price" placeholder="20.00" min="0" step="0.01">
                 </div>
-                <div class="form-group">
-                    <input class="form-control" type="number" name="price" placeholder="Price" min="0.01" step="0.01">
-                </div>
-                <div class="form-group">
-                    <input class="form-control type="text" name="image" placeholder="Image URL">
-                </div>
-                <div class="form-group">
-                    <input class="form-control type="text" name="description" placeholder="Description">
-                </div>
-                <div class="form-group">
-                    <button class="btn btn-lg btn-primary btn-block">Submit</button>
-                </div>
-            </form>
-            <a href="/campgrounds">Go Back</a>
-        </div>
+            </div>
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input class="form-control" type="text" name="location" id="location" placeholder="Kota Tinggi, Johor">
+            </div>
+            <div class="form-group">
+                <label for="country">Country</label>
+                <select class="form-control" name="country" id="country">
+                    <option value="" selected disabled></option>
+                    <option value="Brunei">Brunei</option>
+                    <option value="Cambodia">Cambodia</option>
+                    <option value="East Timor">East Timor</option>
+                    <option value="Indonesia">Indonesia</option>
+                    <option value="Laos">Laos</option>
+                    <option value="Malaysia">Malaysia</option>
+                    <option value="Myanmar">Myanmar</option>
+                    <option value="Philippines">Philippines</option>
+                    <option value="Singapore">Singapore</option>
+                    <option value="Thailand">Thailand</option>
+                    <option value="Vietnam">Vietnam</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea class="form-control" name="description" id="description" cols="30" rows="10" placeholder="Enjoy the sunset view with your friends and family here!"></textarea>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-lg btn-primary btn-block">Submit</button>
+            </div>
+        </form>
+        <a href="/campgrounds">Go Back</a>
     </div>
 </div>
 <%- include("../partials/footer") %>

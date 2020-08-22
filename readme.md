@@ -1,32 +1,29 @@
-RESTful Routes in YelpCamp
+# YelpCamp
+A [site](https://glacial-spire-56138.herokuapp.com/) showcasing various campgrounds in South-East Asia 
 
-name       url                          verb            desc.
------------------------------------------------------------
-<!-- Campgrounds -->
-INDEX     /campgrounds                  GET             Display all campgrounds
-NEW       /campgrounds/new              GET             Display form to create a new campground
-CREATE    /campgrounds                  POST            Add new campground to DB
-SHOW      /campgrounds/:id              GET             Show more info about 1 campground
-EDIT      /campgrounds/:id/edit         GET
-UPDATE    /campgrounds/:id/             PUT
-DESTROY   /campgrounds/:id              DELETE
+## Course Details
+**Title**: [The Web Developer Bootcamp](https://github.com/acyein/the-web-developer-bootcamp)  
+**Instructor**: Colt Steele  
+**Medium**: [Udemy](https://www.udemy.com/course/the-web-developer-bootcamp/)  
 
-<!-- Comments -->
-NEW       /campgrounds/:id/comments/new                 GET
-CREATE    /campgrounds/:id/comments                     POST
-EDIT      /campgrounds/:id/comments/:comment_id/edit    GET
-DESTROY   /campgrounds/:id/comments                     DELETE
+## RESTful Routes in YelpCamp
 
-<!-- 
-Array
-const campgrounds = [
-    {name: "Canopy Tribes, Johor", image: "https://static.tripzilla.com/thumb/3/6/37942_700x.jpg"},
-    {name: "Payung Getaway, Pahang", image: "https://images.pexels.com/photos/776117/pexels-photo-776117.jpeg?auto=compress&cs=tinysrgb&h=350"},
-    {name: "LongSha, Terengganu", image: "https://images.pexels.com/photos/699558/pexels-photo-699558.jpeg?auto=compress&cs=tinysrgb&h=350"},
-    {name: "Canopy Tribes, Johor", image: "https://static.tripzilla.com/thumb/3/6/37942_700x.jpg"},
-    {name: "Payung Getaway, Pahang", image: "https://images.pexels.com/photos/776117/pexels-photo-776117.jpeg?auto=compress&cs=tinysrgb&h=350"},
-    {name: "LongSha, Terengganu", image: "https://images.pexels.com/photos/699558/pexels-photo-699558.jpeg?auto=compress&cs=tinysrgb&h=350"},
-    {name: "Canopy Tribes, Johor", image: "https://static.tripzilla.com/thumb/3/6/37942_700x.jpg"},
-    {name: "Payung Getaway, Pahang", image: "https://images.pexels.com/photos/776117/pexels-photo-776117.jpeg?auto=compress&cs=tinysrgb&h=350"},
-    {name: "LongSha, Terengganu", image: "https://images.pexels.com/photos/699558/pexels-photo-699558.jpeg?auto=compress&cs=tinysrgb&h=350"}
-] -->
+### Campgrounds Routes  
+| Name    | URL                   | Verb   | Description                             |
+|---------|-----------------------|--------|-----------------------------------------|
+| INDEX   | /campgrounds          | GET    | Display all campgrounds                 |
+| NEW     | /campgrounds/new      | GET    | Display form to create a new campground |
+| CREATE  | /campgrounds          | POST   | Add a new campground to database        |
+| SHOW    | /campgrounds/:id      | GET    | Show more info about a campground       |
+| EDIT    | /campgrounds/:id/edit | GET    | Display form to edit a campground       |
+| UPDATE  | /campgrounds/:id      | PUT    | Update details about a campground       |
+| DESTROY | /campgrounds/:id      | DELETE | Delete a campground                     |  
+  
+### Comments Routes  
+| Name    | URL                                        | Verb   | Description                          |
+|---------|--------------------------------------------|--------|--------------------------------------|
+| NEW     | /campgrounds/:id/comments/new              | GET    | Display form to create a new comment |
+| CREATE  | /campgrounds/:id/comments                  | POST   | Add a new comment to database        |
+| EDIT    | /campgrounds/:id/comments/:comment_id/edit | GET    | Display form to edit a comment       |
+| UPDATE  | /campgrounds/:id/comments                  | PUT    | Update a comment                     |
+| DESTROY | /campgrounds/:id/comments                  | DELETE | Delete a comment                     |
