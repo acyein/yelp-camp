@@ -9,7 +9,7 @@ const express        = require("express"),
       methodOverride = require("method-override"),
       Campground     = require("./models/campground"),
       Comment        = require("./models/comment"),
-      User           = require("./models/user");
+      User           = require("./models/user"),
       seedDB         = require("./seeds");
 
 // Requiring routes
@@ -31,6 +31,7 @@ app.set("view engine", "ejs");
 app.use(express.static(`${__dirname}/public`));
 app.use(methodOverride("_method"));
 app.use(flash());
+app.locals.moment = require("moment");
 seedDB();
 
 // Passport configuration
