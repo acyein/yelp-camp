@@ -17,22 +17,21 @@ const indexRoutes      = require("./routes/index"),
       campgroundRoutes = require("./routes/campgrounds"),
       commentRoutes    = require("./routes/comments");
 
-// const url = process.env.DATABASEURL || "mongodb://localhost:27017/yelp_camp"
-const url = "mongodb://localhost:27017/yelp_camp"
-console.log(url);
-mongoose.connect(url, {
+const databaseUri = process.env.MONGODB_URI || "mongodb://localhost:27017/yelp_camp";
+mongoose.connect(databaseUri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false
 }).then(() => console.log("Connected to DB!"))
 .catch(error => console.log(error.message));
+
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(`${__dirname}/public`));
 app.use(methodOverride("_method"));
 app.use(flash());
 app.locals.moment = require("moment");
-seedDB();
+// seedDB();
 
 // Passport configuration
 app.use(require("express-session")({
@@ -58,6 +57,6 @@ app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 
 // Port
-app.listen(process.env.PORT || 3000, () => {
+app.listen(process.env.PORT || 3000, process.env.IP, () => {
     console.log("The YelpCamp Server has started!");
 });
