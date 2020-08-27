@@ -4,6 +4,16 @@ const Campground = require("../models/campground"),
 // All middleware
 const middlewareObj = {};
 
+middlewareObj.isLoggedIn = (req, res, next) => {
+    if(req.isAuthenticated()){
+        return next();
+    }
+    // Store user's current session
+    req.session.redirectTo = req.originalUrl;
+    req.flash("error", "You need to be logged in to do that!");
+    res.redirect("/login");
+}
+
 middlewareObj.checkCampgroundOwnership = (req, res, next) => {
     // Is user logged in?
     // Yes, logged in
@@ -14,7 +24,7 @@ middlewareObj.checkCampgroundOwnership = (req, res, next) => {
                 res.redirect("back");
             } else {
                 // Does logged in user own the campground?
-                if(foundCampground.author.id.equals(req.user._id)) {
+                if(foundCampground.author.id.equals(req.user._id) || req.user.isAdmin) {
                     next();
                 } else {
                     req.flash("error", "You do not have permission to do that!");
@@ -39,7 +49,7 @@ middlewareObj.checkCommentOwnership = (req, res, next) => {
                 res.redirect("back");
             } else {
                 // Does logged in user own the comment?
-                if(foundComment.author.id.equals(req.user._id)) {
+                if(foundComment.author.id.equals(req.user._id) || req.user.isAdmin) {
                     next();
                 } else {
                     req.flash("error", "You do not have permission to do that!");
@@ -53,15 +63,5 @@ middlewareObj.checkCommentOwnership = (req, res, next) => {
         res.redirect("back");
     }
 };
-
-middlewareObj.isLoggedIn = (req, res, next) => {
-    if(req.isAuthenticated()){
-        return next();
-    }
-    // Store user's current session
-    req.session.redirectTo = req.originalUrl;
-    req.flash("error", "You need to be logged in to do that!");
-    res.redirect("/login");
-}
 
 module.exports = middlewareObj;

@@ -1,7 +1,9 @@
-const express  = require("express"),
-      router   = express.Router(),
-      passport = require("passport"),
-      User     = require("../models/user");
+require("dotenv").config();
+const express   = require("express"),
+      router    = express.Router(),
+      passport  = require("passport"),
+      User      = require("../models/user"),
+      adminCode = process.env.ADMIN_CODE;
 
 // ROOT
 router.get("/", (req, res) => {
@@ -17,6 +19,10 @@ router.get("/register", (req, res) => {
 // Handle sign up logic
 router.post("/register", (req, res) => {
     const newUser = new User({username: req.body.username});
+    // Make user admin if code is correct
+    if(req.body.adminCode === adminCode) {
+        newUser.isAdmin = true;
+    }
     User.register(newUser, req.body.password, (err, user) => {
         if(err){
             req.flash("error", `${err.message}.`);
