@@ -23,7 +23,8 @@ const databaseUri = process.env.MONGODB_URI || "mongodb://localhost:27017/yelp_c
 mongoose.connect(databaseUri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useFindAndModify: false
+    useFindAndModify: false,
+    useCreateIndex: true
 }).then(() => console.log("Connected to DB!"))
 .catch(error => console.log(error.message));
 
