@@ -1,0 +1,24 @@
+<%- include("./partials/header") %> 
+<div class="row justify-content-center">
+    <div class="col-md-12">
+        <form action="/forgot" method="POST">
+            <div class="form-group text-center mb-3">
+                <h1 class="h3">Forgot Password</h1>
+                <small class="text-muted">Enter your email address and we'll send you instructions to reset your password</small>
+            </div>
+            <div class="col-9 col-md-6 col-lg-4 ml-auto mr-auto">
+                <div class="form-group mt-4">
+                    <label for="email" class="sr-only">Email Address</label>
+                    <input type="email" id="email" class="form-control" name="email" placeholder="Email address" required autofocus>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-success btn-block" type="submit">Request Password Reset</button>
+                </div>
+            </div>
+        </form>
+        <div class="col-9 col-md-6 col-lg-4 ml-auto mr-auto">
+            <a href="/campgrounds">Go Back</a>
+        </div>
+    </div>
+</div>
+<%- include("./partials/footer") %> 
