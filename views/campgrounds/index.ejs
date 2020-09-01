@@ -1,18 +1,19 @@
 <%- include("../partials/header") %>
-<header class="jumbotron mt-5">
+<header class="jumbotron transparent-bg mt-5">
     <div class="container text-center">
         <h1 id="campgrounds-header"><i class="fas fa-campground"></i> YelpCamp</h1>
         <p class="lead">Explore the wonderful campgrounds in South-East Asia</p>
         <p><a class="btn btn-success btn-lg" href="/campgrounds/new">Add New Campground</a></p>
     </div>
 </header>
+<hr>
 <div class="row text-center">
     <div class="col-lg-12 mt-3 mb-3">
         <h2>Our Popular Campgrounds</h2>
     </div>
     <% campgrounds.forEach(campground => { %>
         <div class="col-lg-4 col-md-6 mb-5">
-            <div class="card">
+            <div class="card shadow">
                 <img src="<%= campground.image %>"  class="campground-preview card-img-top" alt="<%= campground.name %>">
                 <div class="card-body">
                     <h5 class="card-title"><%= campground.name %></h5>
