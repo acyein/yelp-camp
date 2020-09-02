@@ -57,13 +57,15 @@
             </div>
             <div class="form-group">
                 <label for="description">Description</label>
-                <textarea class="form-control" name="campground[description]" value="<%= campground.description %>" cols="30" rows="10"></textarea>
+                <textarea class="form-control" name="campground[description]cols="30" rows="10"><%= campground.description %></textarea>
             </div>
             <div class="form-group">
                 <button class="btn btn-primary btn-block">Update</button>
             </div>
+            <div class="form-group">
+                <a href="/campgrounds/<%= campground._id %>">Cancel</a>
+            </div>
         </form>
     </div>
-    <a href="/campgrounds" class="col-md-6 mt-2 mb-4">Go Back</a>
 </div>
 <%- include("../partials/footer") %>
