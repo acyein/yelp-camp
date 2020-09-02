@@ -11,9 +11,13 @@ h1 {
     font-size: 3em;
 }
 
-/* Transparent background */
-.transparent-bg {
+/* Background colors */
+.bg-transparent {
     background-color: transparent;
+}
+
+.bg-dark-gray {
+    background-color: #24292e;
 }
 
 /* Campground images of same size */
@@ -64,7 +68,7 @@ h1 {
 .delete-btn {
     display: inline;
 }
-  
+
 /* Sticky footer */
 .footer {
     position: absolute;
