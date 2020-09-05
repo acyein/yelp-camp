@@ -4,6 +4,11 @@ const Campground = require("../models/campground"),
 // All middleware
 const middlewareObj = {};
 
+middlewareObj.originalRedirect = function (req, res, next) {
+    req.session.redirectTo = req.originalUrl;
+    next();
+}
+
 middlewareObj.isLoggedIn = (req, res, next) => {
     if(req.isAuthenticated()){
         return next();
