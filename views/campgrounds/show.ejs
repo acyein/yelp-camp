@@ -1,55 +1,148 @@
 <%- include("../partials/header") %>
 <div class="row">
-    <div class="col-md-9 ml-auto mr-auto mb-4">
-        <!-- Campground section -->
-        <div class="card p-2 mb-4">
-            <img class="campground-image card-img-top" src="<%= campground.image %>" alt="<%= campground.name %>">
-            <div class="card-body">
-                <h2 class="h6 text-right"><%= campground.currency%><%= campground.price %>/night<h2>
-                <h2 class="h6 text-right"><%= campground.location %>, <%= campground.country %></h2>
-                <h3 class="card-title"><%= campground.name %></h3>
-                <p><%= campground.description %></p>
-                <p class="post-author text-right">Posted by <%= campground.author.username %>, <%= moment(campground.createdAt).fromNow() %>  </p>
+    <div class="col-md-9 ml-auto mr-auto mt-4 mb-5">
+        <!-- CAMPGROUND section -->
+        <div class="card mb-4">
+                <img class="campground-image card-img-top" src="<%= campground.image %>" alt="<%= campground.name %>">
+            <div class="card-body p-4">
+                <!-- If user is logged in / admin, show dropleft menu with edit and delete links-->
                 <% if(currentUser && campground.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
-                    <a class="btn btn-warning" href="/campgrounds/<%= campground._id %>/edit">Edit</a>
-                    <form class="delete-btn" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
-                        <button class="btn btn-danger">Delete</button>
-                    </form>
+                    <div class="dropdown dropleft float-right">
+                        <!-- ELlipsis button -->
+                        <button class="btn btn-link no-border text-secondary" type="button" id="dropdownCampgroundButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                        <!-- Edit and delete links -->
+                        <div class="dropdown-menu" aria-labelledby="dropdownCampgroundButton">
+                            <a class="dropdown-item" href="/campgrounds/<%= campground._id %>/edit">Edit</a>
+                            <form action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
+                                <button class="dropdown-item">Delete</button>
+                            </form>
+                        </div>
+                    </div>
                 <% } %> 
+                <!-- Header info -->
+                <div class="text-center">
+                    <h1 class="h2 card-title"><%= campground.name %></h1>
+                    <h2 class="h6 text-uppercase">By <a href="/users/<%= campground.author.id %>" class="text-dark"><%= campground.author.username %></a></h2>
+                    <p class="text-uppercase"><%= moment(campground.createdAt).format("MMMM DD, YYYY") %></p>
+                </div>
+                <!-- Price, location -->
+                <div class="text-right mb-3">
+                    <h2 class="h6"><%= campground.currency%><%= campground.price %>/night<h2>
+                    <h2 class="h6"><%= campground.location %> • <%= campground.country %></h2>
+                </div>
+                <!-- Description -->
+                <p><%= campground.description %></p>
+                <!-- Buttons -->
+                
             </div>
         </div>
-        <!-- Comments section -->
-        <div class="card mb-4">
+        
+        <!-- COMMENTS section -->
+        <div class="card bg-light">
             <div class="card-body">
-                <div class="col-md-12 d-flex justify-content-between align-items-end">
-                    <h4>Comments</h4>
-                    <a class="btn btn-success" href="/campgrounds/<%= campground._id %>/comments/new">Add Comment</a>
-                </div>
-                <hr>
-                <div class="row">
+                <div class="col-md-12">
+                    <h3 class="h4">Comments</h3>
+
+                    <hr>
+
+                    <!-- Add new comment -->
+                    <!-- If user is not logged in, direct to login page -->
+                    <% if(!currentUser){ %>
+                        <p class="text-center text-muted"><a href="/login">Log in</a> to comment </p>
+                    <% } %>
+                    
+                    <!-- If user is logged in, show add comment form -->
+                    <% if(currentUser){ %>
+                        <div class="row">
+                            <div class="col-md-12 justify-content-center">
+                                <form action="/campgrounds/<%= campground._id %>/comments/" method="POST">
+                                    <div class="row mb-3">
+                                        <!-- User icon, username -->
+                                        <div class="col-md-auto">
+                                            <div class="form-group">
+                                                <i class="fas fa-user"></i>
+                                                <h6 class="d-inline"><a href="/users/<%= campground.author.id %>" ><%= campground.author.username %></a></h6>
+                                            </div>
+                                        </div>
+                                        <!-- Comment input -->
+                                        <div class="col">
+                                            <div class="input-group">
+                                                <input class="form-control text-dark bg-light no-border border-bottom" type="text" name="comment[text]" placeholder="Add a comment...">
+                                            </div>
+                                        </div>
+                                        <!-- Comment Button -->
+                                        <div class="col-md-auto">
+                                            <div class="form-group">
+                                                <button class="btn btn-success btn-sm">Comment</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    <% } %>
+
+                    <!-- Display 'no comments' if no comments available -->
+                    <% if(campground.comments.length === 0) { %>
+                        <p class="text-center text-muted">No comments yet. Be the first to say something!</p>
+                    <% } %>  
+
+                    <!-- Display comments using loop -->
                     <% campground.comments.forEach(comment => { %>
-                        <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="float-left">
-                                        <h6 class="card-title"><%= comment.author.username %></h6>
-                                        <p class="card-text"><%= comment.text %></p>
-                                    </div>
-                                    <div class="float-right">
-                                        <p><%= moment(comment.createdAt).fromNow() %> </p>
-                                        <% if(currentUser && comment.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
-                                           <div class="float-right">
-                                                <a class="btn btn-warning" href="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>/edit">Edit</a>
-                                                <form class="delete-btn" action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
-                                                    <input class="btn btn-danger" type="submit" value="Delete">
-                                                </form>
-                                           </div>
-                                        <% } %>
-                                    </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!-- Show comment -->
+                                <div class="float-left">
+                                    <i class="fas fa-user"></i>
+                                    <h6 class="d-inline"><a href="/users/<%= comment.author.id %>" class="text-dark"><%= comment.author.username %></a></h6>
+                                    <p class="d-inline text-muted ml-1" style="font-size: 0.8em"><%= moment(comment.createdAt).fromNow() %></p>
+                                    <p><%= comment.text %></p>
                                 </div>
                                 
+                                <!-- If user is logged in / admin, show dropleft menu with edit and delete links -->
+                                <% if(currentUser && comment.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+                                    <!-- Dropleft menu to edit and delete comment -->
+                                    <div class="dropdown dropleft float-right">
+                                        <!-- ELlipsis button -->
+                                        <button class="btn btn-link no-border text-secondary" type="button" id="dropdownCommentButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                        <!-- Edit and delete links -->
+                                        <div class="dropdown-menu" aria-labelledby="dropdownCommentButton">
+                                            <a class="dropdown-item" role="button" data-toggle="collapse" href="#collapseEdit<%= comment._id %>" aria-expanded="false" aria-controls="collapse<%= comment._id %>">Edit</a>
+                                            <form action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                                                <button class="dropdown-item">Delete</button>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                    <!-- Edit comment form -->
+                                    <div class="collapse" id="collapseEdit<%= comment._id %>">
+                                        <form id="edit-comment-form<%= comment._id %>" action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=PUT" method="POST">
+                                            <!-- Comment input to edit text -->
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text border-warning bg-warning">
+                                                        <i class="fas fa-edit text-dark"></i>
+                                                    </span>
+                                                </div>
+                                                <input class="form-control text-dark bg-light border-warning no-shadow" type="text" name="comment[text]" value="<%= comment.text %>">
+                                            </div>
+                                            <!-- Buttons -->
+                                            <div class="text-right mt-2">
+                                                <div class="form-group d-inline">
+                                                    <a class="btn btn-light btn-sm" href="/campgrounds/<%= campground._id %>">Cancel</a>
+                                                </div>
+                                                <div class="form-group d-inline">
+                                                    <button class="btn btn-warning btn-sm">Update</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                <% } %>
                             </div>
-                            
                         </div>
                     <% }); %>
                 </div>
