@@ -1,0 +1,24 @@
+<%- include("../partials/header") %> 
+<div class="row">
+    <div class="col-md-4">
+        <h1><%= user.username %></h1>
+        <h2><%= user.firstName %><%= user.lastName %></h2>
+        <div class="card">
+            <img src="" alt="">
+            <div class="card-body">
+                <p class="card-text">Hi, I'm new</p>
+                <a href="mailto:<%= user.email %>" class="card-text"><%= user.email %></a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <h3>Posted Campgrounds</h3>
+        <hr>
+        <div class="list-group">
+            <% campgrounds.forEach(campground => { %>
+            <a href="/campgrounds/<%= campground.id %>" class="list-group-item list-group-item-action"><%= campground.name %> </a>
+            <% }) %> 
+        </div>
+    </div>
+</div>
+<%- include("../partials/footer") %> 

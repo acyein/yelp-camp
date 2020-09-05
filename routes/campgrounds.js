@@ -18,23 +18,31 @@ router.get("/", (req, res) => {
 
 // CREATE - add new campground to DB
 router.post("/", middleware.isLoggedIn, (req, res) => {
-    const name     = req.body.name,
-          image    = req.body.image,
-          price    = req.body.price,
-          location = req.body.location,
-          country  = req.body.country,
-          desc     = req.body.description,
-          author   = {
-              id: req.user._id,
-              username: req.user.username
+    const name   = req.body.name,
+        image    = req.body.image,
+        price    = req.body.price,
+        location = req.body.location,
+        country  = req.body.country,
+        desc     = req.body.description,
+        author   = {
+            id: req.user._id,
+            username: req.user.username
           },
-          newCampground = {name: name, image: image, location: location, country: country, price: price, description: desc, author: author};
+        newCampground = { 
+            name: name, 
+            image: image, 
+            location: location, 
+            country: country, 
+            price: price, 
+            description: desc, 
+            author: author
+        };
     // Create a new campground and save to DB
     Campground.create(newCampground, (err, newlyCreated) => {
         if(err){
          console.log(err);   
         } else {
-            // Redirect back to campgrounds page
+            // Redirect to campgrounds page
             res.redirect("/campgrounds");
         }
     });
@@ -46,21 +54,20 @@ router.get("/new", middleware.isLoggedIn, (req, res) => {
 });
 
 // SHOW more info about 1 campground
-router.get("/:id", (req, res) => {
+router.get("/:id", middleware.originalRedirect, (req, res) => {
     // Find the campground with provided ID
     Campground.findById(req.params.id).populate("comments").exec((err, foundCampground) => {
         if(err || !foundCampground){
             req.flash("error", "Campground not found");
             res.redirect("back");   
         } else {
-            console.log(foundCampground);
-            // Render show template with that campground
+            // Render show page
             res.render("campgrounds/show", {campground: foundCampground});
         }
     });
 });
 
-// EDIT campground + middleware
+// EDIT campground
 router.get("/:id/edit", middleware.checkCampgroundOwnership, (req, res) => {
     Campground.findById(req.params.id, (err, foundCampground) => {
         res.render("campgrounds/edit", {campground: foundCampground});

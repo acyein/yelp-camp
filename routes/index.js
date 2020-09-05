@@ -5,6 +5,7 @@ const express    = require("express"),
       router     = express.Router(),
       passport   = require("passport"),
       User       = require("../models/user"),
+      Campground = require("../models/campground"),
       adminCode  = process.env.ADMIN_CODE,
       async      = require("async"),
       nodemailer = require("nodemailer"),
@@ -23,7 +24,13 @@ router.get("/register", (req, res) => {
 
 // Handle sign up logic
 router.post("/register", (req, res) => {
-    const newUser = new User({ username: req.body.username, email: req.body.email });
+    const newUser = new User({ 
+        username: req.body.username,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email ,
+        avatar: req.body.avatar
+    });
     // Make user admin if code is correct
     if(req.body.adminCode === adminCode) {
         newUser.isAdmin = true;
@@ -51,7 +58,7 @@ router.post("/login", passport.authenticate("local",
     {
         failureRedirect: "/login"
     }), (req, res) => {
-        var redirectTo = req.session.redirectTo || "/";
+        var redirectTo = req.session.redirectTo ? req.session.redirectTo : "/campgrounds";
         delete req.session.redirectTo;
         res.redirect(redirectTo);
 });
@@ -59,7 +66,7 @@ router.post("/login", passport.authenticate("local",
 // LOGOUT user
 router.get("/logout", (req, res) => {
     req.logout();
-    req.flash("success", "Logged you out!");
+    req.flash("success", "You are now logged out.");
     res.redirect("/campgrounds");
 });
 
@@ -98,12 +105,12 @@ router.post("/forgot", (req, res, next) => {
             const smtpTransport = nodemailer.createTransport({
                 service: "Gmail",
                 auth: {
-                    user: "chianyein@gmail.com", // CREATE FAKE EMAIL
+                    user: "chianyein@gmail.com",
                     pass: process.env.GMAIL_PW
                 }
             });
             const mailOptions = {
-                from: "YelpCamp Admin <chianyein@gmail.com>", // CHANGE EMAIL ADDRESS
+                from: "YelpCamp Admin <chianyein@gmail.com>",
                 to: user.email,
                 subject: "YelpCamp Password Reset",
                 html:
@@ -169,12 +176,12 @@ router.post("/reset/:token", (req, res) => {
             const smtpTransport = nodemailer.createTransport({
                 service: "Gmail",
                 auth: {
-                    user: "chianyein@gmail.com", // CHANGE EMAIL ADDRESS
+                    user: "chianyein@gmail.com",
                     pass: process.env.GMAIL_PW
                 }
             });
             const mailOptions = {
-                from: "YelpCamp Admin <chianyein@gmail.com>", // CHANGE EMAIL ADDRESS
+                from: "YelpCamp Admin <chianyein@gmail.com>",
                 to: user.email,
                 subject: "Your password has been changed",
                 html: 
@@ -188,6 +195,23 @@ router.post("/reset/:token", (req, res) => {
         }
     ], err => {
         res.redirect("/campgrounds");
+    });
+});
+
+// USER profile
+router.get("/users/:id", (req, res) => {
+    User.findById(req.params.id, (err, foundUser) => {
+        if(err) {
+            req.flash("error", "Something went wrong.");
+            res.redirect("/campgrounds");
+        }
+        Campground.find().where("author.id").equals(foundUser._id).exec((err, campgrounds) => {
+            if(err) {
+                req.flash("error", "Something went wrong.");
+                res.redirect("/campgrounds");
+            }
+            res.render("users/show", {user: foundUser, campgrounds: campgrounds});
+        });
     });
 });
 

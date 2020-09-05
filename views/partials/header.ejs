@@ -3,11 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Favicon -->
     <link rel="shortcut icon" href="http://www.iconj.com/ico/h/9/h98nwcagfw.ico" type="image/x-icon">
-    <title>YelpCamp</title>
+    <!-- Bootstrap 4 -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="/stylesheets/main.css">
+    <title>YelpCamp</title>
 </head>
 <body>
     <!-- Navbar -->
@@ -33,7 +37,7 @@
                     </li>
                 <% } else { %>
                     <li class="nav-item">
-                        <a href="#" class="nav-link"><%= currentUser.username %></a>
+                        <a href="/users/<%= currentUser._id %>" class="nav-link"><%= currentUser.username %></a>
                     </li>
                     <li class="nav-item">
                         <a href="/logout" class="nav-link">Logout</a>
