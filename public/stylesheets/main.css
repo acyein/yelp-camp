@@ -7,7 +7,7 @@ body {
     margin-bottom: 3.75em;
 }   
 
-h1 {
+#campgrounds-header {
     font-size: 3em;
 }
 
@@ -20,53 +20,25 @@ h1 {
     background-color: #24292e;
 }
 
+/* Remove borders and shadow from text input*/
+.no-border {
+    border: 0;
+    border-radius: 0;
+}
+
+.no-border:focus {
+    box-shadow: none;
+}
+
+.no-shadow:focus {
+    box-shadow: none;
+}
+
 /* Campground images of same size */
 .campground-preview {
     width: 100%;
     height: 35vh;
     object-fit: cover;
-}
-
-/* Italicise author name */
-.post-author {
-    font-style: italic;
-}
-
-/* Login & register pages*/
-.form-signin {
-    width: 100%;
-    max-width: 20.625em;
-    padding: 1em;
-    margin: 0 auto;
-}
-  
-.form-signin .form-control {
-    position: relative;
-    box-sizing: border-box;
-    height: auto;
-    padding: 0.625em;
-    font-size: 1em;
-}
-
-.form-signin .form-control:focus {
-    z-index: 2;
-}
-  
-.form-signin input[type="text"] {
-    margin-bottom: -1px;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-}
-
-.form-signin input[type="password"] {
-    margin-bottom: 0.625em;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-}
-
-/* Delete button in campgrounds show page*/
-.delete-btn {
-    display: inline;
 }
 
 /* Sticky footer */
