@@ -8,7 +8,7 @@
 </header>
 <hr>
 <div class="row text-center pt-5 pb-5">
-    <div class="col-lg-12 mt-3 mb-3">
+    <div class="col-lg-12 mt-3 mb-4">
         <h2>Our Popular Campgrounds</h2>
     </div>
     <% campgrounds.forEach(campground => { %>
@@ -16,9 +16,10 @@
             <div class="card shadow">
                 <img src="<%= campground.image %>"  class="campground-preview card-img-top" alt="<%= campground.name %>">
                 <div class="card-body">
-                    <h5 class="card-title"><%= campground.name %></h5>
+                    <h2 class="h5 card-title">
+                        <a href="/campgrounds/<%= campground._id %>" class="text-dark"><%= campground.name %></a>
+                    </h2>
                     <p class="card-text"><%= campground.country %></p>
-                    <a href="/campgrounds/<%= campground._id %>" class="btn btn-info">More Info</a>
                 </div>
             </div>
         </div>
